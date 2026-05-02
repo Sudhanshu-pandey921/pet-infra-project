@@ -67,14 +67,3 @@ variable "vm_names" {
         nic_key = string
     }))
 }
-
-# variable "application_gateway_names" {
-#     type = map(object({
-#         appgw_name = string
-#         location = string
-#         rg_key = string
-#         subnet_key = string
-#         public_ip_key = string
-#     }))
-  
-# }

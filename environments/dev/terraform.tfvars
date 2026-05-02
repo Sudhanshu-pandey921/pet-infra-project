@@ -89,24 +89,7 @@ vnet_names = {
 }
 }
 
-#         "nsg3" = {
-#           name = "db-nsg"
-#           location = "southafricanorth"
-#           rg_key = "rg1"
-  
-#           rules = {
-#             "allow_from_app" = {
-#               priority = 100
-#               direction = "Inbound"
-#               access = "Allow"
-#               protocol = "Tcp"
-#               source_port_range = "*"
-#               destination_port_range = "3306"
-#               source_address_prefix = "10.0.2.0/24"
-#               destination_address_prefix = "*"
-#             }
-# }
-#         }
+      
    }
 
 
@@ -121,10 +104,7 @@ vnet_names = {
           subnet_key = "subnet2"
         }
 
-        #  "nsg_db_association" = {
-        #     nsg_key = "nsg3"
-        #     subnet_key = "subnet3"
-        #   }
+       
    }
 
 
@@ -155,13 +135,7 @@ nic_names = {
         public_ip_key = null
         }
 
-      # "nic3" = {
-      #   name = "db-nic"
-      #   location = "southafricanorth"
-      #   rg_key = "rg1"
-      #   subnet_key = "subnet3"
-      #   public_ip_key = null
-      #   }
+     
     }
 
 
@@ -170,12 +144,12 @@ nic_names = {
 
 vm_names = {
     "vm1" = {
-        dev_vm_name = "dev-vm1"
+        dev_vm_name = "dev-vm1"  
         location = "southafricanorth"
         rg_key = "rg1"
         vm_size = "Standard_B2ats_v2"
         admin_username = "azureuser"
-        admin_password = "pandey921@"
+        admin_password = "azureuser@123"
         nic_key = "nic1"
          }
         
@@ -187,29 +161,12 @@ vm_names = {
         rg_key = "rg1"
         vm_size = "Standard_B2ats_v2"
         admin_username = "azureuser"
-        admin_password = "pandey921@"
+        admin_password = "azureuser@123"
         nic_key = "nic2"
          }
 
-      # "vm3" = {
-      #   dev_vm_name = "dev-vm3"
-      #   location = "southafricanorth"
-      #   rg_key = "rg1"
-      #   vm_size = "Standard_B2ats_v2"
-      #   admin_username = "azureuser"
-      #   admin_password = "pandey921@"
-      #   nic_key = "nic3"
-      #    }
+     
 }
 
-# application_gateway_names = {
-#   "ag1" = {
-#     name = "dev-appgw1"
-#     location = "southafricanorth"
-#     rg_key = "rg1"
-#     subnet_key = "subnet2"
-#     public_ip_key = "pip1"
-#     backend_ip_addresses = ["10.0.1.4","10.0.1.5"]
-#   }
-# }
+
         

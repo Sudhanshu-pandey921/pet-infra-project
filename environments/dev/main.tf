@@ -88,18 +88,6 @@ module "vm" {
     depends_on = [ module.rg, module.vnet, module.subnet, module.pip, module.nic ]
 }
 
-# module "application_gateway" {
-#     source = "../../modules/appgw"
-#     for_each = var.application_gateway_names
-
-#     appgw_name = each.value.name
-#     location = each.value.location
-#     rg_name = module.rg[each.value.rg_key].rg_name
-#     subnet_id = module.subnet[each.value.subnet_key].subnet_id
-#     public_ip_address_id = module.pip[each.value.public_ip_key].pip_id
-#     backend_ip_addresses = each.value.backend_ip_addresses
-#     depends_on = [ module.rg, module.vnet, module.subnet, module.pip ]
-# }
 
 
 
