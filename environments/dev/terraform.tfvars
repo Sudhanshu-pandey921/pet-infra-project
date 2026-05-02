@@ -29,12 +29,7 @@ vnet_names = {
         vnet_key = "vnet1"
       }
 
-      # "subnet3" = {
-      #   name = "db-subnet"
-      #   subnet_address_prefixes = ["10.0.3.0/24"]
-      #   rg_key = "rg1"
-      #   vnet_key = "vnet1"
-      # }
+    
   }
 
    nsg_names = {
