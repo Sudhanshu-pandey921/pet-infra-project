@@ -19,7 +19,7 @@ stages:
                 Expand-Archive -Path "tflint.zip" -DestinationPath "tflint" -Force
                 
                 # Add TFLint folder to PATH (temporary for this session)
-                $env:PATH += ";$(Get-Location)\tflint"
+                $env:PATH += ";$(System.DefaultWorkingDirectory)\tflint"
                 
                 # Verify (ab direct command chalega)
-                tflint --version
+                .\tflint\tflint.exe --version
