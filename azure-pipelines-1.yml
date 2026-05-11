@@ -1,68 +1,103 @@
-trigger: 
-  - main
+trigger:
+ - main
 
 pool: may-pool
 
+variables:
+  tfWorkingDir: '$(System.DefaultWorkingDirectory)/environments/dev'
+
 stages:
+
+# INIT 
+
   - stage: FirstStage
     displayName: Init
+
     jobs:
       - job: terraforminit
+
         steps:
           - task: TerraformTask@5
+            displayName: Terraform Init
+
             inputs:
               provider: 'azurerm'
               command: 'init'
-              workingDirectory: '$(System.DefaultWorkingDirectory)environment/dev'
+
+              workingDirectory: '$(tfWorkingDir)'
+
               backendServiceArm: 'may-sc'
               backendAzureRmStorageAccountName: 'maystg12'
               backendAzureRmContainerName: 'maycnt12'
               backendAzureRmKey: 'pet.tfstate'
 
+# PLAN 
 
   - stage: SecondStage
     displayName: Plan
+
     jobs:
       - job: terraformplan
-        steps:
-             - task: TerraformTask@5
-               inputs:
-                 provider: 'azurerm'
-                 command: 'init'
-                 workingDirectory: '$(System.DefaultWorkingDirectory)environment/dev'
-                 backendServiceArm: 'may-sc'
-                 backendAzureRmStorageAccountName: 'maystg12'
-                 backendAzureRmContainerName: 'maycnt12'
-                 backendAzureRmKey: 'pet.tfstate'
 
-             - task: TerraformTask@5
-               inputs:
-                 provider: 'azurerm'
-                 command: 'plan'
-                 workingDirectory: '$(System.DefaultWorkingDirectory)environment/dev'
-                 environmentServiceNameAzureRM: 'may-sc'
-
-  - stage: LastStage
-    displayName: Apply
-    jobs:
-      - job: terraformapply
         steps:
+
           - task: TerraformTask@5
+            displayName: Terraform Init
+
             inputs:
               provider: 'azurerm'
               command: 'init'
-              workingDirectory: '$(System.DefaultWorkingDirectory)environment/dev'
+
+              workingDirectory: '$(tfWorkingDir)'
+
               backendServiceArm: 'may-sc'
               backendAzureRmStorageAccountName: 'maystg12'
               backendAzureRmContainerName: 'maycnt12'
               backendAzureRmKey: 'pet.tfstate'
 
           - task: TerraformTask@5
+            displayName: Terraform Plan
+
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+
+              workingDirectory: '$(tfWorkingDir)'
+
+              environmentServiceNameAzureRM: 'may-sc'
+
+# APPLY
+
+  - stage: LastStage
+    displayName: Apply
+
+    jobs:
+      - job: terraformapply
+
+        steps:
+
+          - task: TerraformTask@5
+            displayName: Terraform Init
+
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+
+              workingDirectory: '$(tfWorkingDir)'
+
+              backendServiceArm: 'may-sc'
+              backendAzureRmStorageAccountName: 'maystg12'
+              backendAzureRmContainerName: 'maycnt12'
+              backendAzureRmKey: 'pet.tfstate'
+
+          - task: TerraformTask@5
+            displayName: Terraform Apply
+
             inputs:
               provider: 'azurerm'
               command: 'apply'
-              workingDirectory: '$(System.DefaultWorkingDirectory)environment/dev'
+
+              workingDirectory: '$(tfWorkingDir)'
+
               commandOptions: '-auto-approve'
               environmentServiceNameAzureRM: 'may-sc'
-
-
