@@ -1,0 +1,65 @@
+trigger:
+- main
+
+pool:
+  name: may-pool
+
+variables:
+  nodeVersion: '16.x'
+
+stages:
+
+#  BUILD 
+
+- stage: Build
+  jobs:
+  - job: BuildJob
+
+    steps:
+
+    - task: NodeTool@0
+      inputs:
+        versionSpec: $(nodeVersion)
+
+    - script: npm install
+      displayName: Install Dependencies
+
+    - script: npm run build
+      displayName: Build React App
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: 'build'
+        ArtifactName: 'react-app'
+        publishLocation: 'Container'
+
+#  DEPLOY 
+
+- stage: Deploy
+  dependsOn: Build
+
+  jobs:
+  - job: DeployJob
+
+    steps:
+
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: current
+        downloadType: single
+        artifactName: react-app
+        downloadPath: $(System.ArtifactsDirectory)
+
+    - task: CopyFilesOverSSH@0
+      inputs:
+        sshEndpoint: 'react-vm-sc'
+        sourceFolder: '$(System.ArtifactsDirectory)/react-app'
+        contents: '**'
+        targetFolder: '/var/www/reactapp'
+
+    - task: SSH@0
+      inputs:
+        sshEndpoint: 'react-vm-sc'
+        runOptions: commands
+        commands: |
+          sudo systemctl restart nginx
